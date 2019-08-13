@@ -1,0 +1,50 @@
+{% extends (parent_template is defined ? parent_template : '@KalamuDefaultBootstrapTemplate/base.html.twig') %}
+{% trans_default_domain 'kalamu' %}
+{% block site_title %}{{content.title}} . {{ 'Posts'|trans }} . {{parent()}}{% endblock site_title %}
+
+{% block content %}
+
+    <div class="container py-5 mb5">
+        <p><a href="{{ cms_link('index', content) }}"><i class="fa fa-arrow-left"></i> {{ 'Back to post list'|trans }}</a></p>
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
+
+                <div class="ht-tm-componentsblock">
+                    <article class="mb-3">
+                        <h1 class="display-4 mb-3">{{content.title}}</h1>
+                        {% if content.image %}
+                            <img src="{{content.image | imagine_filter('post_thumbnail')}}" class="card-img-top" style="width: 100%; display: block;" alt="">
+                        {% else %}
+                            <div class="card-img-top bg-dark bg-growth" style="height: 180px; width: 100%; display: block;"></div>
+                        {% endif %}
+                        <div class="card-body">
+                            {% set datas = content.content|json_decode %}
+                            {% include '@KalamuDefaultBootstrapTemplate/_parts/wysiwyg_dashboard_content.html.twig' %}
+                        </div>
+                        <div class="card-footer text-muted">
+                            <div class="row">
+                                <div class="col">
+                                    {% for taxonomy in content.getUsedTaxonomies() %}
+                                        {% for term in content.getTermsOfTaxonomy(taxonomy) %}
+                                            <a href="{{cms_link('read', term)}}"><i class="fa fa-tag"></i> {{term}}</a>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col text-right">
+                                    <small>{{ 'Published by %name%, the %date%'|trans({'%name%': content.createdBy, '%date%': content.publishedAt|format_datetime}) }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+            <div class="col-md-3 visible-md">
+                {{ render_esi(url('template_frament_last_posts', { 'content_type': 'post', 'max': 5 })) }}
+
+                {{ render_esi(url('template_frament_taxonomies', { 'content_type': 'post', 'max': 10 })) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

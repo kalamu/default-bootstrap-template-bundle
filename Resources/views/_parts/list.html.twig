@@ -1,0 +1,30 @@
+{% trans_default_domain 'kalamu' %}
+
+{% for key, content in paginator if paginator.getPageCount > 0 %}
+    <article class="card mb-3">
+        {% if content.image %}
+            <img src="{{content.image | imagine_filter('post_thumbnail')}}" class="card-img-top" style="width: 100%; display: block;" alt="">
+        {% else %}
+            <div class="card-img-top bg-dark bg-growth" style="height: 180px; width: 100%; display: block;"></div>
+        {% endif %}
+        <div class="card-body">
+            <h2 class="card-title"><a href="{{cms_link('read', content)}}">{{content.title}}</a></h2>
+            <p class="card-text">{{content.resume|nl2br}}</p>
+            <a href="{{cms_link('read', content)}}" class="btn btn-primary">{{ 'Read more'|trans }}</a>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="row">
+                <div class="col">
+                    {% for taxonomy in content.getUsedTaxonomies() %}
+                        {% for term in content.getTermsOfTaxonomy(taxonomy) %}
+                            <a href="{{cms_link('read', term)}}"><i class="fa fa-tag"></i> {{term}}</a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="col text-right">
+                    <small>{{ 'Published by %name%, the %date%'|trans({'%name%': content.createdBy, '%date%': content.publishedAt|format_datetime}) }}</small>
+                </div>
+            </div>
+        </div>
+    </article>
+{% endfor %}

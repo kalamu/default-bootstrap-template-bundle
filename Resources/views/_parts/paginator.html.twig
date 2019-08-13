@@ -1,0 +1,50 @@
+{% trans_default_domain 'kalamu' %}
+
+{% set route_action = route_action|default('index') %}
+{% set content_type = content_type|default('post') %}
+{% set route_parameters = route_parameters|default({}) %}
+
+
+{% if paginator.getPageCount > 1 %}
+    <div class="ht-tm-codeblock ht-tm-element ht-tm-element-inner mt-5">
+        <nav aria-label="{{ 'Post pagination'|trans }}">
+            <ul class="pagination">
+                {% if paginator.getCurrentPageNumber > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{cms_link(route_action, content_type, {page: (paginator.getCurrentPageNumber-1), _context: cms_current_context()}|merge(route_parameters) )}}">{{ 'Previous page'|trans }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">{{ 'Previous page'|trans }}</span>
+                    </li>
+                {% endif %}
+
+
+                {% for i in 3..1 if paginator.getCurrentPageNumber - i > 0 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{cms_link(route_action, content_type, {page: (paginator.getCurrentPageNumber-i), _context: cms_current_context()}|merge(route_parameters) )}}">{{ paginator.getCurrentPageNumber-i }}</a>
+                    </li>
+                {% endfor %}
+
+                <li class="page-item active"><span class="page-link">{{ paginator.getCurrentPageNumber }}<span class="sr-only">(current)</span></span></li>
+
+                {% for i in 1..3 if paginator.getCurrentPageNumber + i <= paginator.getPageCount %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{cms_link(route_action, content_type, {page: (paginator.getCurrentPageNumber+i), _context: cms_current_context()}|merge(route_parameters) )}}">{{ paginator.getCurrentPageNumber+i }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if paginator.getPageCount > paginator.getCurrentPageNumber %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{cms_link(route_action, content_type, {page: (paginator.getCurrentPageNumber+1), _context: cms_current_context()}|merge(route_parameters) )}}">{{ 'Next page'|trans }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">{{ 'Next page'|trans }}</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+{% endif %}

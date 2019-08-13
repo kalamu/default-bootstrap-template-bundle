@@ -1,0 +1,27 @@
+{% extends (parent_template is defined ? parent_template : '@KalamuDefaultBootstrapTemplate/base.html.twig') %}
+{% trans_default_domain 'kalamu' %}
+{% block site_title %}{{ 'Posts'|trans }} . {{parent()}}{% endblock site_title %}
+
+{% block content %}
+    <div class="container py-5 mb5">
+        <div class="row">
+            <div class="col-xl-12">
+                <h1 class="display-4 mb-5">{{ 'Post list'|trans }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
+                <div class="ht-tm-componentsblock">
+                    {% include '@KalamuDefaultBootstrapTemplate/_parts/list.html.twig' %}
+                </div>
+
+                {% include '@KalamuDefaultBootstrapTemplate/_parts/paginator.html.twig' %}
+            </div>
+            <div class="col-md-3 visible-md">
+                {{ render_esi(url('template_frament_last_posts', { 'content_type': 'post', 'max': 5 })) }}
+
+                {{ render_esi(url('template_frament_taxonomies', { 'content_type': 'post', 'max': 10 })) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

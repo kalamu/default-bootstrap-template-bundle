@@ -1,0 +1,33 @@
+{
+  "name": "kalamu/default-bootstrap-template-bundle",
+  "type": "library",
+  "description": "Default Bootstrap template for Kalamu CMS",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Johan DESMYTER",
+      "email": "johan@etic.yt"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/kalamu/default-bootstrap-template-bundle.git"
+    }
+  ],
+  "require": {
+    "kalamu/default-bootstrap-elements-bundle": "^1.0.0@dev",
+    "kalamu/cms-core-bundle": "^1.0.0@dev"
+  },
+  "provide": {
+    "kalamu/template-implementation": "1.0.0"
+  },
+  "autoload": {
+    "psr-4": { "Kalamu\\DefaultBootstrapTemplateBundle\\": "" }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}

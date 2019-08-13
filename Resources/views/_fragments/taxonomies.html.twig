@@ -1,0 +1,15 @@
+{% trans_default_domain 'kalamu' %}
+{% for taxonomy,terms in taxonomies %}
+    <h4 class="mb-3 text-muted">
+        <span class="text-muted">{{ 'Main %taxonomy%'|trans({'%taxonomy%': taxonomy}) }}</span>
+    </h4>
+
+    <ul class="list-group mb-3">
+        {% for term in terms %}
+        <a class="list-group-item d-flex justify-content-between align-items-center" href="{{ path('read_term', {identifier: term['slug']}) }}">
+            {{ term['libelle'] }}
+            <span class="badge badge-pill">{{ term['nb_posts'] }}</span>
+        </a>
+        {% endfor %}
+    </ul>
+{% endfor %}

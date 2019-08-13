@@ -1,0 +1,54 @@
+{% extends '@KalamuDefaultBootstrapTemplate/base.html.twig' %}
+{% trans_default_domain 'kalamu' %}
+{% block site_title %}{{term}} . {{parent()}}{% endblock site_title %}
+
+{% block content %}
+    <section class="container pt-5 mb5">
+        <div class="ht-tm-componentsblock">
+            <div class="row">
+                <div class="col-xl-12">
+                    <span class="text-muted">{{term.taxonomy}}::</span>
+                    <h1 class="display-4 mb-3"> {{term}}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    {% if term.image %}
+                        <img src="{{ term.image|imagine_filter('post_fullsize') }}" alt="" style="max-width: 250px;" class="rounded float-left mr-5">
+                    {% endif %}
+                    {% if term.resume %}
+                        <p>{{term.resume|nl2br}}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                {% set datas = term.description|json_decode %}
+                {% include '@KalamuDefaultBootstrapTemplate/_parts/wysiwyg_dashboard_content.html.twig' %}
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-5 mb5">
+        <div class="row">
+            <div class="col-md-9 col-xs-12">
+                <div class="ht-tm-componentsblock">
+                    {% include '@KalamuDefaultBootstrapTemplate/_parts/list.html.twig' %}
+                </div>
+
+                {% include '@KalamuDefaultBootstrapTemplate/_parts/paginator.html.twig' with {
+                    'route_action': 'read',
+                    'content_type': 'term',
+                    'route_parameters': {identifier: term.slug}
+                } %}
+            </div>
+            <div class="col-md-3 visible-md">
+                {{ render_esi(url('template_frament_last_posts', { 'content_type': 'post', 'max': 5 })) }}
+
+                {{ render_esi(url('template_frament_taxonomies', { 'content_type': 'post', 'max': 10 })) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

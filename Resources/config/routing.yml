@@ -1,0 +1,8 @@
+
+template_frament_last_posts:
+    path:     /last_posts/{content_type}/{max}
+    defaults: { _controller: KalamuDefaultBootstrapTemplateBundle:Fragment:lastPosts }
+
+template_frament_taxonomies:
+    path:     /taxonomies/{content_type}/{max}
+    defaults: { _controller: KalamuDefaultBootstrapTemplateBundle:Fragment:taxonomies }

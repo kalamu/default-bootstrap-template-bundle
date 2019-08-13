@@ -1,0 +1,32 @@
+{% extends '@KalamuDefaultBootstrapTemplate/base.html.twig' %}
+
+{% trans_default_domain 'kalamu' %}
+
+{% if app.request.attributes.get('is_home') == false %}
+    {% block site_title %}{{content.title}} | {{parent()}}{% endblock site_title %}
+{% endif %}
+
+{% block content %}
+
+    <div class="container py-5 mb5">
+        <div class="row">
+            <div class="col-xl-9">
+                {% if app.request.attributes.get('is_home') %}
+                <h2 class="display-4 mb-5">{{content.title}}</h2>
+                {% else %}
+                <h1 class="display-4 mb-5">{{content.title}}</h1>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row py-4">
+            <div class="col-xl-12">
+                {% set datas = content.content|json_decode %}
+                {% include '@KalamuDefaultBootstrapTemplate/_parts/wysiwyg_dashboard_content.html.twig' %}
+            </div>
+        </div>
+
+        <hr>
+        <p class="text-muted text-right">{{ 'Last update'|trans }} {{content.updatedAt|format_datetime}}</p>
+    </div>
+{% endblock %}
